@@ -1,0 +1,2 @@
+PASTE YOUR UPDATE LOG / CHANGELOG HERE
+This text will be displayed to users when the update is completed.
