@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Digital_TTS by MR.THY</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Kantumruy+Pro:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="dark-mode">
+    <div class="app-container">
+        
+        <!-- MAIN SECTION -->
+        <main class="main-layout">
+            
+            <!-- HEADER / TOPBAR -->
+            <header class="topbar">
+                <div class="brand">
+                    <div class="logo-circle">D</div>
+                    <span class="brand-title" data-translate="brand_name">Digital_TTS by MR.THY</span>
+                </div>
+                
+                <nav class="nav-links">
+                    <a href="#" class="nav-item active" id="nav-studio" data-translate="nav_studio">Studio</a>
+                    <a href="#" class="nav-item" id="nav-history" data-translate="nav_history">History</a>
+                    <a href="#" class="nav-item" id="nav-settings"><span data-translate="nav_settings">Settings</span></a>
+                </nav>
+                
+                <div class="header-actions">
+                    <!-- Language Selection Dropdown -->
+                    <div class="lang-dropdown">
+                        <button class="btn-lang" id="btn-lang-selector">
+                            <i class="fa-solid fa-globe"></i>
+                            <span id="current-lang-text">us English</span>
+                            <i class="fa-solid fa-chevron-down"></i>
+                        </button>
+                        <div class="lang-menu" id="lang-menu-box">
+                            <button class="lang-menu-item" data-lang="en">us English</button>
+                            <button class="lang-menu-item" data-lang="km">KH ខ្មែរ</button>
+                        </div>
+                    </div>
+                    
+                    
+                    <button class="btn-studio-direct">
+                        <span data-translate="studio_btn">Studio</span> <i class="fa-solid fa-arrow-right"></i>
+                    </button>
+                </div>
+            </header>
+
+            <!-- STUDIO VIEW -->
+            <div id="studio-view" class="workspace-view">
+                <!-- SPLIT STUDIO WORKSPACE -->
+                <div class="studio-workspace">
+                
+                <!-- LEFT EDITOR & OUTPUT PANEL -->
+                <div class="workspace-left">
+                    
+                    <!-- Text Editor Card -->
+                    <section class="card editor-card">
+                        <div class="card-header">
+                            <h3 class="card-title" data-translate="editor_title">EDITOR</h3>
+                            <div class="font-size-controls">
+                                <span data-translate="font_size_label">Font Size:</span>
+                                <button class="btn-font-size" id="btn-font-dec">-</button>
+                                <span class="font-size-val" id="font-size-display">20</span>
+                                <button class="btn-font-size" id="btn-font-inc">+</button>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <textarea id="text-input" placeholder="បញ្ចូលអត្ថបទនៅទីនេះដើម្បីបំលែងជាសំឡេង... (Enter text here to synthesize...)"></textarea>
+                            
+                            <div class="emotion-tags-container" style="margin-top: 10px; padding: 10px; background: rgba(0,0,0,0.2); border-radius: 8px;">
+                                <p style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 8px; margin-top: 0;">
+                                    <i class="fa-solid fa-face-smile" style="color: var(--accent-primary);"></i> 
+                                    <span data-translate="emotion_tags_desc">បញ្ចូលអារម្មណ៍ទៅក្នុងប្រយោគនីមួយៗ (ចុចដើម្បីបញ្ចូល):</span>
+                                </p>
+                                <div class="emotion-tags-list" style="display: flex; flex-wrap: wrap; gap: 6px;">
+                                    <button class="btn-emotion-tag" data-tag="[neutral]" style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: var(--text-primary); border-radius: 4px; padding: 4px 8px; font-size: 0.8rem; cursor: pointer; transition: 0.2s;">[neutral] ធម្មតា</button>
+                                    <button class="btn-emotion-tag" data-tag="[happy]" style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: var(--text-primary); border-radius: 4px; padding: 4px 8px; font-size: 0.8rem; cursor: pointer; transition: 0.2s;">[happy] សប្បាយ</button>
+                                    <button class="btn-emotion-tag" data-tag="[excited]" style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: var(--text-primary); border-radius: 4px; padding: 4px 8px; font-size: 0.8rem; cursor: pointer; transition: 0.2s;">[excited] រំភើប</button>
+                                    <button class="btn-emotion-tag" data-tag="[angry]" style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: var(--text-primary); border-radius: 4px; padding: 4px 8px; font-size: 0.8rem; cursor: pointer; transition: 0.2s;">[angry] ខឹង</button>
+                                    <button class="btn-emotion-tag" data-tag="[calm]" style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: var(--text-primary); border-radius: 4px; padding: 4px 8px; font-size: 0.8rem; cursor: pointer; transition: 0.2s;">[calm] ស្ងប់ស្ងាត់</button>
+                                    <button class="btn-emotion-tag" data-tag="[rough]" style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: var(--text-primary); border-radius: 4px; padding: 4px 8px; font-size: 0.8rem; cursor: pointer; transition: 0.2s;">[rough] គ្រោតគ្រាត</button>
+                                    <button class="btn-emotion-tag" data-tag="[soft]" style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: var(--text-primary); border-radius: 4px; padding: 4px 8px; font-size: 0.8rem; cursor: pointer; transition: 0.2s;">[soft] ស្រទន់</button>
+                                    <button class="btn-emotion-tag" data-tag="[serious]" style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: var(--text-primary); border-radius: 4px; padding: 4px 8px; font-size: 0.8rem; cursor: pointer; transition: 0.2s;">[serious] ម៉ឺងម៉ាត់</button>
+                                </div>
+                            </div>
+                            <div class="editor-footer">
+                                <div class="stats">
+                                    <span class="stat-item"><span id="char-count">0</span> / 50,000 <span data-translate="stat_chars">characters</span></span>
+                                    <span class="stat-item"><span id="word-count">0</span> <span data-translate="stat_words">words</span></span>
+                                </div>
+                                <button class="btn-clear" id="btn-clear-text">
+                                    <i class="fa-solid fa-xmark"></i> <span data-translate="btn_clear">Clear</span>
+                                </button>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Generate Action Button -->
+                    <div class="generate-bar">
+                        <button class="btn-generate-speech" id="btn-generate">
+                            <span class="btn-content">
+                                <i class="fa-solid fa-microphone"></i>
+                                <span data-translate="btn_generate">Generate Speech</span>
+                            </span>
+                            <div class="btn-loader hidden">
+                                <div class="spinner"></div>
+                                <span data-translate="synthesizing_text">Synthesizing...</span>
+                            </div>
+                        </button>
+                    </div>
+
+                    <!-- Audio Player Card -->
+                    <section class="card player-card">
+                        <div class="card-header">
+                            <h3 class="card-title" data-translate="output_title">Generated Audio</h3>
+                            <button class="btn-download-audio disabled" id="btn-download">
+                                <i class="fa-solid fa-download"></i> <span data-translate="btn_download">Download</span>
+                            </button>
+                        </div>
+                        <div class="card-body">
+                            <!-- Visualizer Canvas -->
+                            <div class="visualizer-area">
+                                <canvas id="waveform-canvas"></canvas>
+                                <div class="visualizer-overlay" id="visualizer-placeholder">
+                                    <i class="fa-solid fa-circle-nodes pulse-icon"></i>
+                                    <span data-translate="visualizer_label">Acoustic Waveform Visualizer</span>
+                                </div>
+                            </div>
+                            
+                            <!-- Playback controls -->
+                            <div class="playback-controls">
+                                <button class="btn-play-pause disabled" id="btn-play-pause">
+                                    <i class="fa-solid fa-play"></i>
+                                </button>
+                                
+                                <div class="playback-timeline">
+                                    <span class="time-label" id="current-time">0:00</span>
+                                    <div class="progress-bar-wrapper" id="progress-bar-container">
+                                        <div class="progress-bar-fill" id="progress-bar-fill"></div>
+                                    </div>
+                                    <span class="time-label" id="total-time">0:24</span>
+                                </div>
+                                
+                                <div class="playback-volume">
+                                    <i class="fa-solid fa-volume-high"></i>
+                                    <input type="range" id="volume-slider" min="0" max="1" step="0.05" value="0.8">
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+
+                <!-- RIGHT PARAMETERS COLUMN -->
+                <div class="workspace-right">
+                    <section class="card tts-engine-card">
+                        <div class="card-header border-none">
+                            <h3 class="card-title" data-translate="engine_title">TTS ENGINE</h3>
+                            <div class="engine-header-actions">
+                                <!-- Download progress bar overlay -->
+                                <div class="download-progress-bar hidden" id="download-progress-indicator">
+                                    <span class="download-percent" id="download-percent-txt">0%</span>
+                                    <div class="download-bar-track">
+                                        <div class="download-bar-fill" id="download-bar-fill"></div>
+                                    </div>
+                                </div>
+                                <button class="btn-engine-action" id="btn-trigger-download" title="Download missing models">
+                                    <i class="fa-solid fa-cloud-arrow-down"></i>
+                                </button>
+                                <button class="btn-engine-action" id="btn-refresh-status" title="Refresh Service Status">
+                                    <i class="fa-solid fa-rotate"></i>
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div class="engine-tabs">
+                            <button class="engine-tab-item active" data-engine="voxcpm">
+                                <div class="tab-indicator dot-green" id="dot-voxcpm"></div>
+                                <div class="tab-meta">
+                                    <h4>VoxCPM2</h4>
+                                    <span data-translate="tab_voxcpm_sub">Neural Khmer</span>
+                                </div>
+                            </button>
+
+                        </div>
+                        
+                        <div class="engine-info-box">
+                            <div class="info-status-row">
+                                <span class="info-engine-name" id="selected-engine-label">VoxCPM2 Khmer TTS</span>
+                                <span class="info-badge green" id="selected-engine-status" data-translate="connected_label">Connected</span>
+                            </div>
+                            <p class="info-desc" id="selected-engine-desc" data-translate="voxcpm_desc">
+                                Highly accurate neural Khmer TTS. Supports multiple speed, pitch, and voice styles. Zero-shot voice cloning capability is integrated using reference audio.
+                            </p>
+                            <div class="info-footer">
+                                <span class="info-mode"><strong data-translate="running_mode">Running Mode</strong>: <span data-translate="mode_local">Local</span></span>
+                                <span class="info-port"><strong data-translate="local_port">Local Port</strong>: <span id="selected-engine-port">8081</span></span>
+                            </div>
+                        </div>
+
+                        <!-- ACCORDION CONTROLS GROUP -->
+                        <div class="accordion-group">
+                            
+                            <!-- Drawer 1: Language -->
+                            <div class="accordion-item" id="drawer-language">
+                                <button class="accordion-header">
+                                    <span class="header-text"><i class="fa-solid fa-language"></i> <span data-translate="drawer_language">Language</span></span>
+                                    <span class="header-value" id="val-lang-preview">km-KH</span>
+                                    <i class="fa-solid fa-chevron-down chevron"></i>
+                                </button>
+                                <div class="accordion-body">
+                                    <select class="custom-select" id="select-language">
+                                        <option value="km-KH">km-KH (Khmer)</option>
+                                        <option value="en-US">en-US (English)</option>
+                                    </select>
+                                </div>
+                            </div>
+                            
+                            <!-- Drawer 2: Voice -->
+                            <div class="accordion-item" id="drawer-voice">
+                                <button class="accordion-header">
+                                    <span class="header-text"><i class="fa-solid fa-user-tie"></i> <span data-translate="drawer_voice">Voice</span></span>
+                                    <span class="header-value" id="val-voice-preview">Default</span>
+                                    <i class="fa-solid fa-chevron-down chevron"></i>
+                                </button>
+                                <div class="accordion-body">
+                                    <select class="custom-select" id="select-voice">
+                                        <option value="default" data-translate="voice_default">Default Voice</option>
+                                        <option value="sokha" data-translate="voice_sokha">Sokha (Male)</option>
+                                        <option value="sreypich" data-translate="voice_sreypich">Sreypich (Female)</option>
+                                        <option value="sokly" data-translate="voice_sokly">Sokly (Female)</option>
+                                    </select>
+                                    
+                                    <!-- Delete Voice Button (Hidden by default) -->
+                                    <button class="btn-remove-voice mt-2 hidden" id="btn-delete-voice" style="width: 100%; border: 1px solid #ff4d4d; color: #ff4d4d; background: transparent; padding: 0.5rem; border-radius: 4px; font-weight: 600; cursor: pointer;">
+                                        <i class="fa-solid fa-trash"></i> Delete Selected Voice Profile
+                                    </button>
+                                    
+                                    <!-- Voice Design Toggle -->
+                                    <button class="btn btn-secondary mt-3 btn-full" id="btn-toggle-design-voice">
+                                        <i class="fa-solid fa-wand-magic-sparkles"></i> Design Custom Voice Profile
+                                    </button>
+                                    
+                                    <!-- Voice Design Form (Hidden by default) -->
+                                    <div class="voice-design-group mt-3 hidden" id="voice-design-group" style="border-top: 1px solid var(--border-color); padding-top: 1rem;">
+                                        <div class="text-input-group">
+                                            <label for="input-new-voice-profile" style="display: block; font-size: 0.75rem; font-weight: 600; color: var(--text-secondary); margin-bottom: 0.25rem;">Voice Profile Name</label>
+                                            <input type="text" id="input-new-voice-profile" placeholder="E.g., Whispering Female..." class="custom-input-text">
+                                        </div>
+                                        <div class="text-input-group mt-2">
+                                            <label for="input-voice-prompt" style="display: block; font-size: 0.75rem; font-weight: 600; color: var(--text-secondary); margin-bottom: 0.25rem;">Vocal Prompt Description</label>
+                                            <textarea id="input-voice-prompt" placeholder="E.g., adult Khmer female speaker, soft whispery tone, warm smooth tone, clear Cambodia Khmer pronunciation..." style="width: 100%; height: 60px; background: rgba(255,255,255,0.05); border: 1px solid var(--border-color); border-radius: 4px; color: var(--text-primary); font-family: inherit; font-size: 0.8rem; padding: 0.5rem; resize: none; box-sizing: border-box;"></textarea>
+                                        </div>
+                                        <button class="btn-save-voice mt-2" id="btn-save-designed-voice" style="width: 100%;">
+                                            <i class="fa-solid fa-floppy-disk"></i> Save Custom Voice Profile
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Drawer 3: Clone a Voice -->
+                            <div class="accordion-item" id="drawer-cloning">
+                                <button class="accordion-header">
+                                    <span class="header-text"><i class="fa-solid fa-microphone-lines"></i> <span data-translate="drawer_cloning">Clone a Voice (VoxCPM2)</span></span>
+                                    <span class="header-value" id="val-clone-preview">4 voices</span>
+                                    <i class="fa-solid fa-chevron-down chevron"></i>
+                                </button>
+                                <div class="accordion-body">
+                                    <select class="custom-select" id="select-cloned-voices">
+                                        <option value="none" data-translate="clone_none">No clone reference (standard)</option>
+                                        <option value="voice1">Sinn Sisamouth Clone</option>
+                                        <option value="voice2">Ros Serey Sothea Clone</option>
+                                        <option value="voice3">News Anchor Male</option>
+                                        <option value="voice4">News Anchor Female</option>
+                                    </select>
+                                    
+                                    <!-- Delete Cloned Voice Button (Hidden by default) -->
+                                    <button class="btn-remove-cloned-voice mt-2 hidden" id="btn-delete-cloned-voice" style="width: 100%; border: 1px solid #ff4d4d; color: #ff4d4d; background: transparent; padding: 0.5rem; border-radius: 4px; font-weight: 600; cursor: pointer; margin-bottom: 0.5rem;">
+                                        <i class="fa-solid fa-trash"></i> Delete Selected Clone Preset
+                                    </button>
+                                    
+                                    <div class="drop-zone-wrapper mt-3">
+                                        <div class="drop-zone" id="audio-dropzone">
+                                            <i class="fa-solid fa-cloud-arrow-up drop-icon"></i>
+                                            <p class="drop-text" data-translate="dropzone_desc">Drag & drop 5-15s WAV reference clip here or <span>browse files</span></p>
+                                            <input type="file" id="reference-audio-file" accept="audio/wav,audio/mp3,audio/m4a" class="hidden">
+                                        </div>
+                                        <div class="file-loaded hidden" id="file-loaded-info">
+                                            <div class="file-details">
+                                                <i class="fa-solid fa-file-audio"></i>
+                                                <span class="file-name" id="loaded-file-name">reference.wav</span>
+                                            </div>
+                                            <button class="btn-remove-file" id="btn-remove-audio"><i class="fa-solid fa-circle-xmark"></i></button>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="text-input-group mt-3" id="ref-text-wrapper">
+                                        <label for="reference-text" data-translate="ref_transcript_label">Reference Transcript (Highly Recommended)</label>
+                                        <input type="text" id="reference-text" placeholder="Enter transcript of reference voice audio...">
+                                    </div>
+                                    
+                                    <!-- Cloned Voice Save Option -->
+                                    <div class="voice-save-group mt-3 hidden" id="voice-save-group">
+                                        <div class="text-input-group">
+                                            <label for="input-new-voice-name" style="display: block; font-size: 0.75rem; font-weight: 600; color: var(--text-secondary); margin-bottom: 0.25rem;">Cloned Voice Name</label>
+                                            <input type="text" id="input-new-voice-name" placeholder="E.g., Sinn Sisamouth Custom..." class="custom-input-text">
+                                        </div>
+                                        <button class="btn-save-voice" id="btn-save-cloned-voice" style="width: 100%;">
+                                            <i class="fa-solid fa-floppy-disk"></i> Save Cloned Voice Preset
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Drawer 4: Emotion Controls -->
+                            <div class="accordion-item" id="drawer-emotions">
+                                <button class="accordion-header">
+                                    <span class="header-text"><i class="fa-solid fa-face-smile-wink"></i> <span data-translate="drawer_emotions">Emotion Controls</span></span>
+                                    <span class="header-value" id="val-emotion-preview">Neutral</span>
+                                    <i class="fa-solid fa-chevron-down chevron"></i>
+                                </button>
+                                <div class="accordion-body">
+                                    <div class="emotions-grid">
+                                        <button class="emotion-btn active" data-emotion="neutral">
+                                            <span class="emoji">😐</span>
+                                            <span class="txt" data-translate="emo_neutral">Normal</span>
+                                        </button>
+                                        <button class="emotion-btn" data-emotion="happy">
+                                            <span class="emoji">😊</span>
+                                            <span class="txt" data-translate="emo_happy">Happy</span>
+                                        </button>
+                                        <button class="emotion-btn" data-emotion="rough">
+                                            <span class="emoji">😠</span>
+                                            <span class="txt" data-translate="emo_rough">Rough</span>
+                                        </button>
+                                        <button class="emotion-btn" data-emotion="excited">
+                                            <span class="emoji">🤩</span>
+                                            <span class="txt" data-translate="emo_excited">Excited</span>
+                                        </button>
+                                        <button class="emotion-btn" data-emotion="angry">
+                                            <span class="emoji">😡</span>
+                                            <span class="txt" data-translate="emo_angry">Angry</span>
+                                        </button>
+                                        <button class="emotion-btn" data-emotion="calm">
+                                            <span class="emoji">😌</span>
+                                            <span class="txt" data-translate="emo_calm">Calm</span>
+                                        </button>
+                                        <button class="emotion-btn" data-emotion="soft">
+                                            <span class="emoji">🗣️</span>
+                                            <span class="txt" data-translate="emo_soft">Soft/Loud</span>
+                                        </button>
+                                        <button class="emotion-btn" data-emotion="serious">
+                                            <span class="emoji">😐</span>
+                                            <span class="txt" data-translate="emo_serious">Serious</span>
+                                        </button>
+                                    </div>
+                                    
+                                    <!-- Emotion sliders -->
+                                    <div class="slider-block mt-3">
+                                        <div class="slider-info">
+                                            <span class="slider-lbl" data-translate="lbl_expressiveness">Emotion Expression</span>
+                                            <span class="slider-val-display" id="val-expressiveness">50</span>
+                                        </div>
+                                        <input type="range" class="accordion-slider" id="input-expressiveness" min="0" max="100" value="50">
+                                    </div>
+                                    
+                                    <div class="slider-block mt-2">
+                                        <div class="slider-info">
+                                            <span class="slider-lbl" data-translate="lbl_strength">Emotion Strength</span>
+                                            <span class="slider-val-display" id="val-style">50</span>
+                                        </div>
+                                        <input type="range" class="accordion-slider" id="input-style" min="0" max="100" value="50">
+                                    </div>
+                                    
+                                    <div class="slider-block mt-2">
+                                        <div class="slider-info">
+                                            <span class="slider-lbl" data-translate="lbl_fidelity">Fidelity / Sound quality</span>
+                                            <span class="slider-val-display" id="val-fidelity">75</span>
+                                        </div>
+                                        <input type="range" class="accordion-slider" id="input-fidelity" min="0" max="100" value="75">
+                                    </div>
+                                    
+                                    <p class="accordion-note" data-translate="emotion_guide">
+                                        Emotion controls let you fine-tune synthesis attributes. Adjust sliders to shape audio pitch variations.
+                                    </p>
+                                </div>
+                            </div>
+                            
+                            <!-- Drawer 5: Voice Style -->
+                            <div class="accordion-item" id="drawer-style">
+                                <button class="accordion-header">
+                                    <span class="header-text"><i class="fa-solid fa-wand-magic-sparkles"></i> <span data-translate="drawer_style">Voice Style</span></span>
+                                    <span class="header-value" id="val-style-preview">Default</span>
+                                    <i class="fa-solid fa-chevron-down chevron"></i>
+                                </button>
+                                <div class="accordion-body">
+                                    <div class="styles-grid">
+                                        <button class="style-btn active" data-style="default">
+                                            <span class="emoji"><i class="fa-solid fa-microphone"></i></span>
+                                            <span class="txt" data-translate="style_default">Default</span>
+                                        </button>
+                                        <button class="style-btn" data-style="news">
+                                            <span class="emoji"><i class="fa-solid fa-newspaper"></i></span>
+                                            <span class="txt" data-translate="style_news">News / Broadcast</span>
+                                        </button>
+                                        <button class="style-btn" data-style="story">
+                                            <span class="emoji"><i class="fa-solid fa-book-open"></i></span>
+                                            <span class="txt" data-translate="style_story">Story / Narrate</span>
+                                        </button>
+                                        <button class="style-btn" data-style="chat">
+                                            <span class="emoji"><i class="fa-solid fa-comments"></i></span>
+                                            <span class="txt" data-translate="style_chat">Conversation</span>
+                                        </button>
+                                        <button class="style-btn" data-style="happy">
+                                            <span class="emoji"><i class="fa-solid fa-face-smile"></i></span>
+                                            <span class="txt" data-translate="style_happy">Happy / Excited</span>
+                                        </button>
+                                        <button class="style-btn" data-style="calm">
+                                            <span class="emoji"><i class="fa-solid fa-feather"></i></span>
+                                            <span class="txt" data-translate="style_calm">Calm</span>
+                                        </button>
+                                        <button class="style-btn" data-style="rough">
+                                            <span class="emoji"><i class="fa-solid fa-volcano"></i></span>
+                                            <span class="txt" data-translate="style_rough">Rough</span>
+                                        </button>
+                                        <button class="style-btn" data-style="clerk">
+                                            <span class="emoji"><i class="fa-solid fa-user-tie"></i></span>
+                                            <span class="txt" data-translate="style_clerk">Clerk</span>
+                                        </button>
+                                        <button class="style-btn" data-style="official">
+                                            <span class="emoji"><i class="fa-solid fa-scale-balanced"></i></span>
+                                            <span class="txt" data-translate="style_official">Official</span>
+                                        </button>
+                                        <button class="style-btn" data-style="customer">
+                                            <span class="emoji"><i class="fa-solid fa-headset"></i></span>
+                                            <span class="txt" data-translate="style_customer">Customer Service</span>
+                                        </button>
+                                        <button class="style-btn" data-style="commercial">
+                                            <span class="emoji"><i class="fa-solid fa-bullhorn"></i></span>
+                                            <span class="txt" data-translate="style_commercial">Commercial</span>
+                                        </button>
+                                        <button class="style-btn" data-style="poetry">
+                                            <span class="emoji"><i class="fa-solid fa-scroll"></i></span>
+                                            <span class="txt" data-translate="style_poetry">Poetry</span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Drawer 6: Speed / Pitch / Volume -->
+                            <div class="accordion-item" id="drawer-speed">
+                                <button class="accordion-header">
+                                    <span class="header-text"><i class="fa-solid fa-gauge-high"></i> <span data-translate="drawer_speed">Speed / Pitch / Volume</span></span>
+                                    <span class="header-value" id="val-speed-preview">1.0x +0 100%</span>
+                                    <i class="fa-solid fa-chevron-down chevron"></i>
+                                </button>
+                                <div class="accordion-body">
+                                    <!-- Speed slider -->
+                                    <div class="slider-block">
+                                        <div class="slider-info">
+                                            <span class="slider-lbl" data-translate="lbl_speed">Speed</span>
+                                            <span class="slider-val-display"><span id="val-speed">1.0</span>x</span>
+                                        </div>
+                                        <input type="range" class="accordion-slider" id="input-speed" min="0.5" max="2.0" step="0.1" value="1.0">
+                                    </div>
+                                    <!-- Pitch slider -->
+                                    <div class="slider-block mt-3">
+                                        <div class="slider-info">
+                                            <span class="slider-lbl" data-translate="lbl_pitch">Pitch</span>
+                                            <span class="slider-val-display" id="val-pitch">+0</span>
+                                        </div>
+                                        <input type="range" class="accordion-slider" id="input-pitch" min="-10" max="10" step="1" value="0">
+                                    </div>
+                                    <!-- Volume slider -->
+                                    <div class="slider-block mt-3">
+                                        <div class="slider-info">
+                                            <span class="slider-lbl" data-translate="lbl_volume">Volume</span>
+                                            <span class="slider-val-display"><span id="val-volume">100</span>%</span>
+                                        </div>
+                                        <input type="range" class="accordion-slider" id="input-volume" min="0" max="150" step="5" value="100">
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Drawer 7: Output Format -->
+                            <div class="accordion-item" id="drawer-format">
+                                <button class="accordion-header">
+                                    <span class="header-text"><i class="fa-solid fa-file-wave"></i> <span data-translate="drawer_format">Output Format</span></span>
+                                    <span class="header-value" id="val-format-preview">WAV</span>
+                                    <i class="fa-solid fa-chevron-down chevron"></i>
+                                </button>
+                                <div class="accordion-body">
+                                    <div class="format-grid">
+                                        <button class="format-btn active" data-format="wav">
+                                            <h4>WAV</h4>
+                                            <span data-translate="format_wav_sub">Lossless - High quality</span>
+                                        </button>
+                                        <button class="format-btn" data-format="mp3">
+                                            <h4>MP3</h4>
+                                            <span data-translate="format_mp3_sub">Compressed - Smaller file</span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Drawer 8: File Import -->
+                            <div class="accordion-item" id="drawer-import">
+                                <button class="accordion-header">
+                                    <span class="header-text"><i class="fa-solid fa-file-import"></i> <span data-translate="drawer_import">File Import</span></span>
+                                    <span class="header-value" data-translate="import_preview">Drag file</span>
+                                    <i class="fa-solid fa-chevron-down chevron"></i>
+                                </button>
+                                <div class="accordion-body">
+                                    <div class="import-drop-zone" id="file-import-dropzone">
+                                        <i class="fa-solid fa-cloud-arrow-up import-icon"></i>
+                                        <p data-translate="import_guide">Drop file here or <span>browse</span></p>
+                                        <span class="import-extensions">.txt - .srt - .vtt - .docx</span>
+                                        <input type="file" id="file-import-input" accept=".txt,.srt,.vtt,.docx" class="hidden">
+                                    </div>
+                                    <div class="file-loaded hidden" id="import-file-loaded-info">
+                                        <div class="file-details">
+                                            <i class="fa-solid fa-file-lines"></i>
+                                            <span class="file-name" id="loaded-import-file-name">script.txt</span>
+                                        </div>
+                                        <button class="btn-remove-file" id="btn-remove-import"><i class="fa-solid fa-circle-xmark"></i></button>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Drawer 9: Batch Processing -->
+                            <div class="accordion-item" id="drawer-batch">
+                                <button class="accordion-header">
+                                    <span class="header-text"><i class="fa-solid fa-layer-group"></i> <span data-translate="drawer_batch">Batch Processing</span></span>
+                                    <span class="header-value" data-translate="batch_preview">Inactive</span>
+                                    <i class="fa-solid fa-chevron-down chevron"></i>
+                                </button>
+                                <div class="accordion-body">
+                                    <button class="btn btn-secondary btn-full" id="btn-batch-mode">
+                                        <i class="fa-solid fa-play"></i> <span data-translate="btn_batch_start">Start Batch Translation</span>
+                                    </button>
+                                </div>
+                            </div>
+                            
+                        </div>
+                    </section>
+            </div>
+            </div>
+            </div>
+            
+            <!-- HISTORY VIEW -->
+            <div id="history-view" class="workspace-view hidden">
+                <div class="card history-card" style="margin: 1.5rem; min-height: 500px;">
+                    <div class="card-header">
+                        <h3 class="card-title"><i class="fa-solid fa-clock-rotate-left"></i> <span data-translate="history_title">Synthesis History</span></h3>
+                        <button class="btn-clear-terminal" id="btn-clear-history-all" style="background: rgba(255, 77, 77, 0.15); color: #ff4d4d; border: 1px solid rgba(255, 77, 77, 0.3); padding: 0.5rem 1rem; border-radius: 4px; font-weight: 600; cursor: pointer;">
+                            <i class="fa-solid fa-trash-can"></i> <span data-translate="btn_clear_history_all">Clear All History</span>
+                        </button>
+                    </div>
+                    <div class="card-body">
+                        <div id="history-empty" class="history-empty-state" style="display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 4rem 2rem; color: var(--text-secondary); text-align: center;">
+                            <i class="fa-solid fa-music pulse-icon" style="font-size: 3rem; margin-bottom: 1.5rem; opacity: 0.5;"></i>
+                            <p style="font-size: 1.1rem; font-weight: 500; margin-bottom: 0.5rem;" data-translate="history_empty_header">No speech generated yet.</p>
+                            <p style="font-size: 0.85rem; max-width: 320px;" data-translate="history_empty_desc">Head to the Studio, type some text, and click "Generate Speech" to begin building your library.</p>
+                        </div>
+                        <div id="history-list" class="history-list hidden" style="display: flex; flex-direction: column; gap: 1rem; padding: 0.5rem;">
+                            <!-- Populated dynamically -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- SETTINGS VIEW -->
+            <div id="settings-view" class="workspace-view hidden">
+                <div class="card settings-card" style="margin: 1.5rem; min-height: 500px;">
+                    <div class="card-header">
+                        <h3 class="card-title"><i class="fa-solid fa-sliders"></i> <span data-translate="settings_main_title">System Settings & Configurations</span></h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="settings-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem;">
+                            
+                            <div class="settings-group" style="background: rgba(255,255,255,0.02); 
+<truncated 11589 bytes>
+
+NOTE: The output was truncated because it was too long. Use a more targeted query or a smaller range to get the information you need.

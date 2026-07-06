@@ -1,0 +1,4 @@
+license_key,client_name,hwid,status,notes,expiry
+[PASTE_GENERATED_KEY_HERE],John Doe,THY-5215-C5D7-98F5-9C31,Active,Sample local client monthly subscription,2026-07-27
+[PASTE_GENERATED_KEY_HERE],Jane Smith,THY-1111-2222-3333-4444,Active,Sample lifetime client,lifetime
+[PASTE_GENERATED_KEY_HERE],Abusive User,THY-9999-9999-9999-9999,Revoked,Sample blocked client (key will fail validation),2026-12-31

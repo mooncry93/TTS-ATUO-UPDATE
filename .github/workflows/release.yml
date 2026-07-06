@@ -1,0 +1,61 @@
+name: Compile Windows Release
+
+on:
+  push:
+    tags:
+      - 'v*'  # Trigger only when pushing a version tag, e.g. v1.2.0
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+          cache: 'pip'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install pyinstaller requests fastapi uvicorn soundfile numpy cryptography pyyaml pydantic librosa simplejson sortedcontainers
+
+      - name: Run Windows Compiler script
+        working-directory: ./DevFolder
+        run: |
+          python build_windows_exe.py
+
+      - name: Package installer with Inno Setup
+        working-directory: ./DevFolder
+        run: |
+          iscc installer_config.iss
+
+      - name: Verify setup executable creation
+        run: |
+          if (Test-Path "DevFolder/client/setup.exe") {
+              echo "setup.exe compiled successfully!"
+          } else {
+              echo "Error: setup.exe not found!"
+              exit 1
+          }
+
+      - name: Create Release and Upload Asset
+        uses: softprops/action-gh-release@v1
+        with:
+          files: DevFolder/client/setup.exe
+          tag_name: ${{ github.ref_name }}
+          name: Release ${{ github.ref_name }}
+          body: |
+            Digital_TTS Studio local client release ${{ github.ref_name }}.
+            Includes updated offline ASR and speed optimizations.
+          draft: false
+          prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Digital_TTS Studio - Midnight Neon</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Kantumruy+Pro:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- ONLY Load studio.css to ensure no clashes with the old style -->
+    <link rel="stylesheet" href="studio.css?v=1.0.2">
+</head>
+<body>
+    <div class="app-container">
+        
+        <!-- TOP NAVIGATION -->
+        <header class="topbar">
+            <div class="brand">
+                <div class="logo-circle">D</div>
+                <span class="brand-title" style="display: flex; align-items: baseline;">Digital_TTS <span style="font-size: 0.72rem; opacity: 0.65; font-weight: normal; margin-left: 0.4rem; font-family: sans-serif;">By: Mr.THY</span></span>
+            </div>
+            
+            <nav class="nav-links">
+                <a href="#" class="nav-item active" id="nav-studio"><i class="fa-solid fa-microphone-lines"></i> <span data-translate="nav_studio">Studio</span></a>
+                <a href="#" class="nav-item" id="nav-transcriber"><i class="fa-solid fa-file-audio"></i> <span data-translate="nav_transcriber">Transcriber</span></a>
+                <a href="#" class="nav-item" id="nav-history"><i class="fa-solid fa-clock-rotate-left"></i> <span data-translate="nav_history">History</span></a>
+                <a href="#" class="nav-item" id="nav-settings"><i class="fa-solid fa-gear"></i> <span data-translate="nav_settings">Settings</span></a>
+            </nav>
+            
+            <div class="header-actions" style="display: flex; align-items: center; gap: 0.8rem;">
+
+                <div class="lang-selector-wrapper">
+                    <button id="btn-lang-selector" class="btn-lang"><i class="fa-solid fa-globe"></i> <span id="current-lang-text">English</span></button>
+                    <div id="lang-menu-box" class="lang-menu">
+                        <div class="lang-menu-item" data-lang="en">English</div>
+                        <div class="lang-menu-item" data-lang="km">Khmer</div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- MAIN VIEWS -->
+        <div class="main-views-container">
+            
+            <!-- ================= STUDIO VIEW ================= -->
+            <div id="studio-view" class="workspace-view active">
+                <div class="studio-layout">
+                    
+                    <!-- LEFT SIDEBAR: Configuration -->
+                    <aside class="sidebar">
+                        <div class="sidebar-header">
+                            <h2><i class="fa-solid fa-sliders"></i> Voice Engine</h2>
+                        </div>
+                        
+                        <div class="sidebar-content">
+                            <!-- Engine Status -->
+                            <div class="engine-status-box">
+                                <div class="status-indicator">
+                                    <span class="dot active"></span>
+                                    <span id="selected-engine-label">VoxCPM2</span>
+                                    <span id="selected-engine-status" class="status-text">Connected</span>
+                                </div>
+                                <p id="selected-engine-desc" class="engine-desc">Neural Khmer TTS</p>
+                                <span id="selected-engine-port" class="hidden">8081</span>
+                                <button id="btn-refresh-status" class="hidden">Refresh</button>
+                            </div>
+
+                            <!-- Language & Voice -->
+                            <div class="config-group">
+                                <label>Language</label>
+                                <select id="select-language" class="neon-select">
+                                    <option value="km-KH">km-KH (Khmer)</option>
+                                    <option value="en-US">en-US (English)</option>
+                                </select>
+                            </div>
+                            
+                            <div class="config-group">
+                                <label>Voice Profile</label>
+                                <select id="select-voice" class="neon-select">
+                                    <option value="default">Default Voice</option>
+                                    <option value="sokha">Sokha (Male)</option>
+                                    <option value="sreypich">Sreypich (Female)</option>
+                                </select>
+                                <div id="voice-design-group" class="hidden">
+                                    <input type="text" id="input-new-voice-profile">
+                                    <input type="text" id="input-voice-prompt">
+                                    <button id="btn-save-designed-voice"></button>
+                                </div>
+                                <div class="voice-actions">
+                                    <button id="btn-toggle-design-voice" class="hidden">Design</button>
+                                    <button id="btn-delete-voice" class="hidden">Delete</button>
+                                </div>
+                            </div>
+
+                            <!-- Vocal Delivery Style -->
+                            <div class="config-group">
+                                <label>Vocal Delivery Style</label>
+                                <select id="select-voice-style" class="neon-select">
+                                    <option value="default" data-translate="style_default">Default</option>
+                                    <option value="news" data-translate="style_news">News / Broadcast</option>
+                                    <option value="story" data-translate="style_story">Story / Narrate</option>
+                                    <option value="chat" data-translate="style_chat">Conversation</option>
+                                    <option value="happy" data-translate="style_happy">Happy / Excited</option>
+                                    <option value="calm" data-translate="style_calm">Calm</option>
+                                    <option value="rough" data-translate="style_rough">Rough</option>
+                                    <option value="clerk" data-translate="style_clerk">Clerk</option>
+                                    <option value="official" data-translate="style_official">Official</option>
+                                    <option value="customer" data-translate="style_customer">Customer Service</option>
+                                    <option value="commercial" data-translate="style_commercial">Commercial</option>
+                                    <option value="poetry" data-translate="style_poetry">Poetry</option>
+                                </select>
+                            </div>
+
+                            <!-- Voice Cloning -->
+                            <div class="config-group" id="drawer-cloning">
+                                <label>Voice Cloning (Zero-shot)</label>
+                                <select id="select-cloned-voices" class="neon-select mb-2">
+                                    <option value="none">No clone reference (standard)</option>
+                                    <option value="voice1">Sinn Sisamouth Clone</option>
+                                    <option value="voice2">Ros Serey Sothea Clone</option>
+                                </select>
+                                <div id="audio-dropzone" class="dropzone">
+                                    <i class="fa-solid fa-cloud-arrow-up"></i>
+                                    <p>Drop reference audio</p>
+                                    <input type="file" id="reference-audio-file" accept="audio/*" class="hidden">
+                                </div>
+                                <div class="cloning-record-wrapper" style="display: flex; gap: 0.5rem; margin-top: 0.5rem; margin-bottom: 0.5rem;">
+                                    <button id="btn-record-cloning" class="btn-lang" style="width: 100%; justify-content: center; background: rgba(59, 130, 246, 0.15); border: 1px solid rgba(59, 130, 246, 0.3); color: #60a5fa; padding: 0.4rem;"><i class="fa-solid fa-microphone"></i> <span data-translate="btn_record_cloning">Record Voice</span></button>
+                                </div>
+                                <div id="file-loaded-info" class="hidden">
+                                    <span id="loaded-file-name"></span>
+                                    <button id="btn-remove-audio">X</button>
+                                </div>
+                                <textarea id="reference-text" class="hidden"></textarea>
+                                <div id="voice-save-group" class="hidden mt-2">
+                                    <label style="display: block; font-size: 0.75rem; margin-bottom: 0.25rem;">Preset Name</label>
+                                    <input type="text" id="input-new-voice-name" placeholder="Preset name..." class="neon-select mb-2" style="width: 100%; font-family: inherit; font-size: 0.85rem; padding: 0.4rem; border-radius: var(--radius-sm); border: 1px solid var(--border-soft); background: rgba(0,0,0,0.2); color: white;">
+                                    <button id="btn-save-cloned-voice" class="btn-lang" style="width: 100%; padding: 0.4rem; font-size: 0.85rem; justify-content: center;"><i class="fa-solid fa-floppy-disk"></i> Save Cloned Voice Preset</button>
+                                </div>
+                                <button id="btn-delete-cloned-voice" class="btn-lang hidden mt-2" style="width: 100%; padding: 0.4rem; font-size: 0.85rem; background: rgba(239, 68, 68, 0.2); border: 1px solid rgba(239, 68, 68, 0.4); color: #f87171; justify-content: center;"><i class="fa-solid fa-trash"></i> Delete Preset</button>
+                            </div>
+
+                            <!-- Emotion Sliders -->
+                            <div class="config-group" id="drawer-emotions">
+                                <label>Expressiveness: <span id="val-expressiveness">50</span></label>
+                                <input type="range" id="input-expressiveness" min="0" max="100" value="50" class="neon-slider">
+                                
+                                <label class="mt-2">Style Strength: <span id="val-style">50</span></label>
+                                <input type="range" id="input-style" min="0" max="100" value="50" class="neon-slider">
+                                
+                                <label class="mt-2">Fidelity: <span id="val-fidelity">75</span></label>
+                                <input type="range" id="input-fidelity" min="0" max="100" value="75" class="neon-slider">
+                            </div>
+
+                            <!-- Speed & Pitch -->
+                            <div class="config-group">
+                                <label>Speed: <span id="val-speed">1.0x</span></label>
+                                <input type="range" id="input-speed" min="0.5" max="2.0" step="0.1" value="1.0" class="neon-slider">
+                                
+                                <label class="mt-2">Pitch: <span id="val-pitch">+0</span></label>
+                                <input type="range" id="input-pitch" min="-10" max="10" step="1" value="0" class="neon-slider">
+                            </div>
+
+                        </div>
+                    </aside>
+
+                    <!-- CENTER MAIN: Editor -->
+                    <main class="editor-main">
+                        <div class="editor-card">
+                            <div class="editor-header">
+                                <div class="emotion-tags">
+                                    <button class="btn-emotion-tag" data-tag="[neutral]">[neutral]</button>
+                                    <button class="btn-emotion-tag" data-tag="[happy]">[happy]</button>
+                                    <button class="btn-emotion-tag" data-tag="[excited]">[excited]</button>
+                                    <button class="btn-emotion-tag" data-tag="[angry]">[angry]</button>
+                                    <button class="btn-emotion-tag" data-tag="[calm]">[calm]</button>
+                                    <button class="btn-emotion-tag" data-tag="[rough]">[rough]</button>
+                                    <button class="btn-emotion-tag" data-tag="[soft]">[soft]</button>
+                                </div>
+                                <div class="font-controls">
+                                    <button id="btn-font-dec"><i class="fa-solid fa-minus"></i></button>
+                                    <span id="font-size-display">20</span>
+                                    <button id="btn-font-inc"><i class="fa-solid fa-plus"></i></button>
+                                </div>
+                            </div>
+                            
+                            <textarea id="text-input" placeholder="Type or paste your text here to synthesize..."></textarea>
+                            
+                            <div class="editor-footer">
+                                <div class="stats">
+                                    <span id="char-count">0</span> chars | <span id="word-count">0</span> words
+                                </div>
+                                <div class="editor-actions-extra" style="display: flex; gap: 0.5rem; align-items: center;">
+                                    <button id="btn-insert-pause" class="btn-ghost" style="padding: 0.4rem 0.6rem; font-size: 0.82rem;"><i class="fa-solid fa-pause"></i> <span data-translate="btn_insert_pause">Insert Pause</span></button>
+
+                                    <button id="btn-voice-input" class="btn-ghost" style="padding: 0.4rem 0.6rem; font-size: 0.82rem; color: var(--accent-cyan); border-color: rgba(14, 165, 233, 0.3);"><i class="fa-solid fa-microphone"></i> <span data-translate="btn_voice_input">Voice Dictate</span></button>
+                                </div>
+                                <button id="btn-clear-text" class="btn-ghost"><i class="fa-solid fa-trash"></i> Clear</button>
+                            </div>
+                        </div>
+                        
+                        <!-- Floating Generate Button -->
+                        <div class="generate-wrapper">
+                            <button id="btn-generate" class="btn-generate-neon">
+                                <span class="btn-content"><i class="fa-solid fa-bolt"></i> Generate Speech</span>
+                                <span class="btn-loader hidden"><i class="fa-solid fa-spinner fa-spin"></i> Generating...</span>
+                            </button>
+                        </div>
+                    </main>
+
+                    <!-- BOTTOM DOCK: Player & Visualizer -->
+                    <footer class="bottom-dock">
+                        <div class="visualizer-bg">
+                            <canvas id="waveform-canvas"></canvas>
+                        </div>
+                        
+                        <div class="dock-controls">
+                            <button id="btn-play-pause" class="btn-play"><i class="fa-solid fa-play"></i></button>
+                            
+                            <div class="timeline">
+                                <span id="current-time">0:00</span>
+                                <div id="progress-bar-container" class="progress-bar">
+                                    <div id="progress-bar-fill" class="progress-fill"></div>
+                                </div>
+                                <span id="total-time">0:00</span>
+                            </div>
+                            
+                            <div class="volume-control">
+                                <i class="fa-solid fa-volume-high"></i>
+                                <input type="range" id="volume-slider" min="0" max="1" step="0.05" value="0.8" class="neon-slider-sm">
+                            </div>
+                            
+                            <button id="btn-download" class="btn-ghost"><i class="fa-solid fa-download"></i></button>
+                        </div>
+                    </footer>
+                </div>
+            </div>
+
+            <!-- ================= HISTORY VIEW ================= -->
+            <div id="history-view" class="workspace-view hidden">
+                <div class="card history-card">
+                    <div class="card-header">
+                        <h2><i class="fa-solid fa-clock-rotate-left"></i> Generation History</h2>
+                        <div class="history-actions" style="display: flex; gap: 0.5rem; align-items: center;">
+                            <button id="btn-merge-history" class="btn-ghost" style="color: var(--accent-cyan); border-color: rgba(6, 182, 212, 0.3); padding: 0.4rem 0.6rem; font-size: 0.82rem;"><i class="fa-solid fa-object-group"></i> <span data-translate="btn_merge_history">Merge Selected</span></button>
+                            <button id="btn-clear-history-all" class="btn-ghost"><i class="fa-solid fa-trash"></i> Clear All</button>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div id="history-empty" class="empty-state">
+                            <i class="fa-solid fa-music"></i>
+                            <p>No speech generated yet.</p>
+                        </div>
+                        <div id="history-list" class="history-list hidden"></div>
+                    </div>
+                </div>
+            </div>
+            <!-- ================= TRANSCRIBER VIEW ================= -->
+            <div id="transcriber-view" class="workspace-view hidden">
+                <div class="card settings-card">
+                    <div class="card-header">
+                        <h2><i class="fa-solid fa-file-audio"></i> <span data-translate="transcriber_title">Local Audio Transcriber (Speech to Text)</span></h2>
+                    </div>
+                    <div class="card-body settings-grid">
+                        <div class="settings-box">
+                            <h3><i class="fa-solid fa-upload"></i> <span data-translate="transcriber_upload_title">Upload Audio</span></h3>
+                            <p style="font-size: 0.78rem; opacity: 0.7; margin-bottom: 0.75rem;" data-translate="transcriber_upload_desc">Select an MP3 or WAV file to transcribe completely locally using OpenAI Whisper.</p>
+                            
+                            <div id="transcribe-dropzone" class="dropzone" style="height: 120px; display: flex; flex-direction: column; justify-content: center; align-items: center; border: 2px dashed var(--border-soft); border-radius: var(--radius-md); background: rgba(0,0,0,0.15); cursor: pointer;">
+                                <i class="fa-solid fa-cloud-arrow-up" style="font-size: 1.8rem; margin-bottom: 0.5rem; color: var(--accent-cyan);"></i>
+                                <p id="transcribe-dropzone-txt">Select or drop audio file here...</p>
+                                <input type="file" id="transcribe-audio-file" accept="audio/*" style="display: none;">
+                            </div>
+                            
+                            <div id="transcribe-file-info" class="hidden" style="display: flex; justify-content: space-between; align-items: center; margin-top: 0.5rem; background: rgba(255,255,255,0.05); padding: 0.4rem 0.6rem; border-radius: var(--radius-sm); font-size: 0.85rem;">
+                                <span id="transcribe-file-name" style="word-break: break-all; color: var(--accent-cyan);"></span>
+                                <button id="btn-remove-transcribe-audio" style="background: none; border: none; color: #f87171; cursor: pointer; font-weight: bold; font-size: 0.9rem;">X</button>
+                            </div>
+                        </div>
+                        
+                        <div class="settings-box">
+                            <h3><i class="fa-solid fa-sliders"></i> <span data-translate="transcriber_config_title">Configuration</span></h3>
+                            <div class="config-group">
+                                <label data-translate="transcribe_engine_label">Transcription Engine</label>
+                                <select id="select-transcribe-engine" class="neon-select">
+                                    <option value="whisper" selected data-translate="engine_whisper_opt">Local Whisper (Offline)</option>
+                                    <option value="qwen" data-translate="engine_qwen_opt">Khmer Transcript (Local)</option>
+                                </select>
+                            </div>
+                            <div class="config-group mt-2" id="whisper-model-group">
+                                <label data-translate="whisper_model_label">Whisper Model size</label>
+                                <select id="select-whisper-model" class="neon-select">
+                                    <option value="tiny" data-translate="whisper_tiny_opt">Tiny (Fast, ~75MB)</option>
+                                    <option value="base" selected data-translate="whisper_base_opt">Base (Recommended, ~140MB)</option>
+                                    <option value="small" data-translate="whisper_small_opt">Small (Better Khmer, ~460MB)</option>
+                                    <option value="medium" data-translate="whisper_medium_opt">Medium (High Accuracy, ~1.5GB)</option>
+                                    <option value="large-v3" data-translate="whisper_large_opt">Large V3 (Best Quality, ~3GB)</option>
+                                </select>
+                            </div>
+                            <div class="config-group mt-2">
+                                <label data-translate="target_format_label">Target Format</label>
+                                <select id="select-transcribe-format" class="neon-select">
+                                    <option value="txt" data-translate="format_txt_opt">Plain Text (.txt)</option>
+                                    <option value="srt" selected data-translate="format_srt_opt">Subtitles (.srt)</option>
+                                    <option value="lrc" data-translate="format_lrc_opt">Song Lyrics (.lrc)</option>
+                                </select>
+                            </div>
+                            <div class="config-group mt-2">
+                                <label data-translate="transcribe_language_label">Language</label>
+                                <select id="select-transcribe-language" class="neon-select">
+                                    <option value="auto" selected data-translate="lang_auto_opt">Auto Detect</option>
+                                    <option value="km" data-translate="lang_km_opt">Khmer (ខ្មែរ)</option>
+                                    <option value="en" data-translate="lang_en_opt">English</option>
+                                </select>
+                            </div>
+                            
+                            <button id="btn-start-transcribe" class="btn-action mt-3" style="width: 100%; height: 38px; justify-content: center; font-weight: 600;"><i class="fa-solid fa-circle-play"></i> <span data-translate="btn_start_transcribe">Start Transcription</span></button>
+                            <div id="transcribe-progress-indicator" class="hidden" style="margin-top: 1rem; width: 100%;">
+                                <div style="display: flex; justify-content: space-between; font-size: 0.75rem; color: var(--text-dim); margin-bottom: 0.25rem;">
+                                    <span id="transcribe-progress-status">Processing audio...</span>
+                                    <span id="transcribe-progress-percent">0%</span>
+                                </div>
+                                <div class="progress-bar" style="width: 100%; height: 6px; background: rgba(255,255,255,0.1); border-radius: 3px; overflow: hidden; border: 1px solid var(--border-soft);">
+                                    <div id="transcribe-bar-fill" style="width: 0%; height: 100%; background: linear-gradient(90deg, var(--accent-cyan), var(--accent-fuchsia)); transition: width 0.2s ease;"></div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="settings-box full-width">
+                            <h3><i class="fa-solid fa-align-left"></i> <span data-translate="transcription_result_title">Transcription Result</span></h3>
+                            <textarea id="transcribe-result-text" readonly style="width: 100%; height: 200px; padding: 0.5rem; background: rgba(0,0,0,0.3); color: white; border: 1px solid var(--border-soft); border-radius: var(--radius-sm); font-family: monospace; font-size: 0.85rem; resize: vertical;" placeholder="Your transcription result will appear here..."></textarea>
+                            
+                            <div class="action-list mt-2" style="display: flex; gap: 0.5rem; justify-content: flex-end;">
+                                <button id="btn-toggle-timestamps" class="btn-ghost hidden" style="padding: 0.4rem 0.6rem; font-size: 0.82rem; color: var(--accent-fuchsia); border-color: rgba(217, 70, 239, 0.3);"><i class="fa-solid fa-eraser"></i> <span id="lbl-toggle-timestamps" data-translate="btn_clean_timestamps">Clean Timestamps</span></button>
+                                <button id="btn-copy-transcribe" class="btn-ghost" style="padding: 0.4rem 0.6rem; font-size: 0.82rem;"><i class="fa-solid fa-copy"></i> <span data-translate="btn_copy_clipboard">Copy to Clipboard</span></button>
+                                <button id="btn-download-transcribe" class="btn-ghost" style="padding: 0.4rem 0.6rem; font-size: 0.82rem; color: var(--accent-cyan); border-color: rgba(6, 182, 212, 0.3);"><i class="fa-solid fa-file-arrow-down"></i> <span data-translate="btn_save_file">Save File</span></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ================= SETTINGS VIEW ================= -->
+            <div id="settings-view" class="workspace-view hidden">
+                <div class="card settings-card">
+                    <div class="card-header">
+                        <h2><i class="fa-solid fa-gear"></i> System Settings</h2>
+                    </div>
+                    <div class="card-body settings-grid">
+                        
+                        <!-- Core System -->
+                        <div class="settings-box">
+                            <h3><i class="fa-solid fa-microchip"></i> Core System</h3>
+                            <div class="action-list">
+                                <button id="btn-settings-setup" class="btn-action">Setup Dependencies</button>
+                                <button id="btn-settings-probe" class="btn-action">Probe System</button>
+                                <button id="btn-settings-cleanup" class="btn-action">Cleanup Cache</button>
+                            </div>
+                            
+                            <div class="progress-area">
+                                <div id="setup-progress-indicator" class="hidden">
+                                    <div class="progress-bar"><div id="setup-bar-fill"></div></div>
+                                    <span id="setup-percent-txt">0%</span>
+                                </div>
+                                <span id="setup-status-txt" class="status-txt">Idle</span>
+                            </div>
+                            
+                            <div class="toggle-group mt-2">
+                                <label><input type="checkbox" id="low-spec-checkbox"> Low VRAM Mode</label>
+                                <label><input type="checkbox" id="mock-fallback-checkbox"> Mock Fallback</label>
+                            </div>
+                            
+                            <div class="action-list mt-2">
+                                <button id="btn-purge-vram" class="btn-ghost">Purge VRAM</button>
+                                <button id="btn-clear-logs" class="btn-ghost">Clear Logs</button>
+                            </div>
+                        </div>
+                        
+                        <!-- Application -->
+                        <div class="settings-box">
+                            <h3><i class="fa-solid fa-layer-group"></i> Application</h3>
+                            <div class="config-group">
+                                <label>System Language</label>
+                                <select id="select-settings-lang" class="neon-select">
+                                    <option value="en">English</option>
+                                    <option value="km">Khmer</option>
+                                </select>
+                            </div>
+
+                            <div class="lists mt-2">
+                                <h4 style="font-size: 0.85rem; color: var(--accent-fuchsia); margin-bottom: 0.5rem; margin-top: 1rem;"><i class="fa-solid fa-microphone"></i> Custom Designed Voices</h4>
+                                <div id="settings-designed-list"></div>
+                                
+                                <h4 style="font-size: 0.85rem; color: var(--accent-cyan); margin-bottom: 0.5rem; margin-top: 1rem;"><i class="fa-solid fa-clone"></i> Cloned Voice Presets</h4>
+                                <div id="settings-cloned-list"></div>
+                            </div>
+                        </div>
+                        
+                        <!-- Pronunciation Lexicon -->
+                        <div class="settings-box">
+                            <h3><i class="fa-solid fa-book-open"></i> <span data-translate="settings_lexicon_title">Pronunciation Lexicon</span></h3>
+                            <p style="font-size: 0.78rem; opacity: 0.7; margin-bottom: 0.75rem;" data-translate="settings_lexicon_desc">Define acronyms or foreign words and their phonetic Khmer spellings (e.g. "AI" -> "អេអាយ").</p>
+                            
+                            <div class="lexicon-input-group" style="display: flex; gap: 0.4rem; margin-bottom: 0.5rem;">
+                                <input type="text" id="lexicon-word" placeholder="Word (e.g. AI)" class="neon-select" style="flex: 1; padding: 0.35rem; font-size: 0.8rem; background: rgba(0,0,0,0.2); border: 1px solid var(--border-soft); border-radius: var(--radius-sm); color: white;">
+                                <input type="text" id="lexicon-phonetic" placeholder="Phonetic Khmer (e.g. អេអាយ)" class="neon-select" style="flex: 1; padding: 0.35rem; font-size: 0.8rem; background: rgba(0,0,0,0.2); border: 1px solid var(--border-soft); border-radius: var(--radius-sm); color: white;">
+                                <button id="btn-add-lexicon" class="btn-lang" style="padding: 0.35rem 0.6rem; font-size: 0.8rem; justify-content: center; height: 32px;"><i class="fa-solid fa-plus"></i></button>
+                            </div>
+                            
+                            <div class="lists" style="max-height: 150px; overflow-y: auto; border: 1px solid var(--border-soft); border-radius: var(--radius-sm); padding: 0.4rem; background: rgba(0,0,0,0.15);">
+                                <div id="lexicon-list-container" style="display: flex; flex-direction: column; gap: 0.3rem;">
+                                    <!-- Dynamic lexicon entries -->
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Software Update -->
+                        <div class="settings-box">
+                            <h3><i class="fa-solid fa-cloud-arrow-down"></i> Software Update</h3>
+                            <div class="update-info-area">
+                                <p style="font-size:0.8rem;opacity:0.85;margin-bottom:0.25rem;">Current Version: <span id="current-app-version" style="font-weight:600;color:var(--accent-cyan);">1.0.0</span></p>
+                                <p style="font-size:0.8rem;opacity:0.85;" id="update-status-msg">Click Check Update to check for new releases.</p>
+                            </div>
+                            <div class="action-list mt-2">
+                                <button id="btn-check-update" class="btn-action">Check Update</button>
+                                <a id="btn-download-update" href="#" target="_blank" class="btn-action hidden" style="text-decoration:none;display:inline-flex;align-items:center;justify-content:center;background:linear-gradient(135deg,var(--accent-fuchsia),var(--accent-purple));color:white;">Download Update</a>
+                            </div>
+                            <div id="changelog-area" class="hidden mt-2" style="border: 1px solid var(--border-soft); border-radius: var(--radius-sm); padding: 0.5rem; background: rgba(0,0,0,0.15);">
+                                <h4 style="font-size:0.8rem;color:var(--accent-fuchsia);margin-bottom:0.25rem;">Changelog:</h4>
+                                <p id="update-changelog-txt" style="font-size:0.75rem;opacity:0.85;white-space:pre-wrap;"></p>
+                            </div>
+                        </div>
+
+                        <!-- Terminal -->
+                        <div class="settings-box full-width">
+                            <h3><i class="fa-solid fa-terminal"></i> Terminal Output</h3>
+                            <div id="terminal-output" class="terminal-box"></div>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+
+        </div> <!-- /main-views-container -->
+    </div> <!-- /app-container -->
+
+    <!-- ================= COMPATIBILITY LAYER ================= -->
+    <!-- These IDs are required by app.js but are not part of the primary UI. 
+         Keeping them hidden ensures zero JS errors. -->
+    <div id="hidden-compat-layer" style="display:none;">
+        <div class="accordion-header"></div>
+        <div class="engine-tab-item"></div>
+        <div class="emotion-btn"></div>
+        <div class="style-btn"></div>
+        <div class="format-btn"></div>
+        <div class="accordion-item"></div>
+        <div class="history-item-card"></div>
+        <div class="btn-studio-direct"></div>
+        <div id="dot-voxcpm"></div>
+        <div id="dot-omnivoice"></div>
+        <div id="dot-fish"></div>
+        <input type="range" id="input-volume">
+        <span id="val-volume"></span>
+        <div id="file-import-dropzone"></div>
+        <input type="file" id="file-import-input">
+        <div id="import-file-loaded-info"></div>
+        <span id="loaded-import-file-name"></span>
+        <button id="btn-remove-import"></button>
+        <span id="val-lang-preview"></span>
+        <span id="val-voice-preview"></span>
+        <span id="val-clone-preview"></span>
+        <span id="val-emotion-preview"></span>
+        <span id="val-style-preview"></span>
+        <span id="val-speed-preview"></span>
+        <span id="val-format-preview"></span>
+        <button id="btn-trigger-download"></button>
+        <button id="btn-settings-download"></button>
+        <div id="download-progress-indicator"></div>
+        <div id="download-bar-fill"></div>
+        <div id="download-percent-txt"></div>
+        <div id="visualizer-placeholder"></div>
+        <audio id="main-audio-element"></audio>
+    </div>
+
+    <!-- ================= LICENSE ACTIVATION MODAL ================= -->
+    <div id="license-modal" class="modal-overlay hidden" style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(3, 0, 20, 0.85); backdrop-filter: blur(25px); z-index: 9999; display: flex; align-items: center; justify-content: center;">
+        <div class="card" style="width: 450px; padding: 2rem; border: 1px solid var(--border-soft); box-shadow: 0 0 40px rgba(139, 92, 246, 0.35); text-align: center; border-radius: var(--radius-md); background: rgba(18, 10, 43, 0.9);">
+            <div class="logo-circle" style="width: 64px; height: 64px; font-size: 1.8rem; margin: 0 auto 1.5rem auto;">L</div>
+            <h2 style="font-size: 1.6rem; font-weight: 700; margin-bottom: 0.5rem; letter-spacing: 0.5px;">Activation Required</h2>
+            <p style="font-size: 0.88rem; opacity: 0.75; margin-bottom: 1.5rem; line-height: 1.5;">This software is locked to this computer. Please copy your Hardware ID (HWID) below and send it to Mr. THY to receive your activation key.</p>
+            
+            <div class="config-group" style="margin-bottom: 1.2rem; text-align: left;">
+                <label style="font-size: 0.82rem; opacity: 0.85; margin-bottom: 0.4rem; display: block;">Your Hardware ID (HWID)</label>
+                <div style="display: flex; gap: 0.4rem; align-items: center; width: 100%;">
+                    <input type="text" id="license-hwid" readonly class="neon-select" style="flex: 1; padding: 0.5rem; color: var(--accent-cyan); font-weight: 600; text-align: center; font-family: monospace; background: rgba(0,0,0,0.3); border: 1px solid var(--border-soft); border-radius: var(--radius-sm);" value="Retrieving HWID...">
+                    <button id="btn-copy-hwid" class="btn-ghost" style="padding: 0.5rem 0.75rem; height: 36px; justify-content: center; font-weight: 600;"><i class="fa-solid fa-copy"></i> Copy</button>
+                </div>
+            </div>
+            
+            <div class="config-group" style="margin-bottom: 1.5rem; text-align: left;">
+                <label style="font-size: 0.82rem; opacity: 0.85; margin-bottom: 0.4rem; display: block;">Enter License Key</label>
+                <textarea id="input-license-key" placeholder="Paste your activation license key here..." class="neon-select" style="width: 100%; height: 110px; padding: 0.5rem; color: white; background: rgba(0,0,0,0.3); border: 1px solid var(--border-soft); border-radius: var(--radius-sm); font-family: monospace; font-size: 0.78rem; resize: none; box-sizing: border-box;"></textarea>
+            </div>
+            
+            <button id="btn-activate-license" class="btn-action" style="width: 100%; justify-content: center; font-weight: bold; background: linear-gradient(135deg, var(--accent-violet), var(--accent-fuchsia)); border: none; box-shadow: 0 0 15px var(--border-glow); height: 40px;"><i class="fa-solid fa-key"></i> Activate Software</button>
+            <div id="license-activation-status" style="margin-top: 1rem; font-size: 0.82rem; font-weight: 600; display: none;"></div>
+        </div>
+    </div>
+
+    <script src="app.js?v=1.0.2"></script>
+</body>
+</html>

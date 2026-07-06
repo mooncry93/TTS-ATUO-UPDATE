@@ -1,0 +1,32 @@
+# OS Metadata
+.DS_Store
+Thumbs.db
+
+# Python Cache & Bytecode
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Local Virtual Environments
+.venv/
+venv/
+ENV/
+env/
+
+# Large binaries and static assets
+For Client/
+DevFolder/VoxCPM2/ffmpeg.exe
+DevFolder/static/output_voxcpm_*.wav
+
+# Model checkpoints and weights (downloaded dynamically)
+DevFolder/models/
+DevFolder/VoxCPM2/models/
+DevFolder/VoxCPM2/voxcpm_runtime/
+
+# Compiler/Build output files
+DevFolder/build/
+DevFolder/dist/
+DevFolder/*.spec
+gateway.spec
+Digital_TTS_Studio.spec
