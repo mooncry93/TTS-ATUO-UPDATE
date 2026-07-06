@@ -1,5 +1,5 @@
 {
-  "version": "1.1.0",
-  "download_url": "https://github.com/mooncry93/TTS-ATUO-UPDATE/releases/download/v1.1.0/setup.exe",
-  "changelog": "កែសម្រួលល្បឿនបំប្លែងសំឡេង និងជួសជុលបញ្ហា Setup។"
+  "version": "1.2.0",
+  "download_url": "https://github.com/mooncry93/TTS-ATUO-UPDATE/releases/download/v1.2.0/setup.exe",
+  "changelog": "v1.2.0: បន្ថែមម៉ូដែល Khmer Transcrip (Local) និង Whisper, គាំទ្រការបម្លែងឯកសារសំឡេងវែងៗ (រហូតដល់១ម៉ោង), បង្ហាញរបារវឌ្ឍនភាពការងារផ្សាយផ្ទាល់, និងប៊ូតុងលុបម៉ោង (Clean Timestamps)។"
 }
