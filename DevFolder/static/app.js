@@ -1121,8 +1121,43 @@ document.addEventListener("DOMContentLoaded", () => {
                     
                     if (data.update_available) {
                         updateStatusMsg.innerHTML = `<span style="color:var(--accent-fuchsia);font-weight:600;">${currentGUIlang === "km" ? "មានកំណែទម្រង់ថ្មី៖ v" : "Update Available: v"}${data.online_version}</span>`;
-                        btnDownloadUpdate.href = data.download_url;
-                        btnDownloadUpdate.classList.remove("hidden");
+                        
+                        if (data.platform === "win32") {
+                            btnDownloadUpdate.innerText = currentGUIlang === "km" ? "ដំឡើងការអាប់ដេតឥឡូវនេះ" : "Install Update Now";
+                            btnDownloadUpdate.href = "#";
+                            btnDownloadUpdate.removeAttribute("target");
+                            btnDownloadUpdate.classList.remove("hidden");
+                            
+                            // Recreate button to strip previous event listeners cleanly
+                            const newBtn = btnDownloadUpdate.cloneNode(true);
+                            btnDownloadUpdate.parentNode.replaceChild(newBtn, btnDownloadUpdate);
+                            
+                            newBtn.addEventListener("click", async (e) => {
+                                e.preventDefault();
+                                newBtn.disabled = true;
+                                newBtn.style.opacity = "0.5";
+                                updateStatusMsg.innerText = currentGUIlang === "km" ? "កំពុងទាញយក និងដំឡើងការអាប់ដេតជាកិច្ចការផ្ទៃក្រោយ។ កម្មវិធីនឹងបិទ ហើយចាប់ផ្តើមឡើងវិញស្វ័យប្រវត្តិបន្តិចទៀតនេះ..." : "Downloading and installing update in the background. The app will close and restart shortly...";
+                                
+                                try {
+                                    const installRes = await fetch("/api/install-update", { method: "POST" });
+                                    const installData = await installRes.json();
+                                    console.log("[UPDATE]", installData.message);
+                                } catch (err) {
+                                    console.error("Installation failed:", err);
+                                    updateStatusMsg.innerText = currentGUIlang === "km" ? "ការដំឡើងការអាប់ដេតមានបញ្ហា!" : "Failed to trigger installation.";
+                                    newBtn.disabled = false;
+                                    newBtn.style.opacity = "1";
+                                }
+                            });
+                        } else {
+                            // macOS and others: fallback to standard zip download link
+                            btnDownloadUpdate.innerText = currentGUIlang === "km" ? "ទាញយកការអាប់ដេតសម្រាប់ Mac" : "Download Update for Mac";
+                            // Dynamically map setup.exe to the corresponding mac zip package
+                            let macUrl = data.download_url.replace("setup.exe", `digital_tts_studio_mac_v${data.online_version}.zip`);
+                            btnDownloadUpdate.href = macUrl;
+                            btnDownloadUpdate.target = "_blank";
+                            btnDownloadUpdate.classList.remove("hidden");
+                        }
                         
                         if (data.changelog) {
                             updateChangelogTxt.innerText = data.changelog;

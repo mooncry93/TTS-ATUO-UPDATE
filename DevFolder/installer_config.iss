@@ -3,7 +3,7 @@
 
 [Setup]
 AppName=Digital_TTS Studio
-AppVersion=1.2.2
+AppVersion=1.2.3
 DefaultDirName={localappdata}\Digital_TTS_Studio
 DefaultGroupName=Digital_TTS Studio
 OutputDir=client
@@ -45,4 +45,4 @@ Name: "{group}\Digital_TTS Studio"; Filename: "{app}\Digital_TTS_Studio.exe"
 Name: "{autodesktop}\Digital_TTS Studio"; Filename: "{app}\Digital_TTS_Studio.exe"; Tasks: desktopicon
 
 [Run]
-Filename: "{app}\Digital_TTS_Studio.exe"; Description: "{cm:LaunchProgram,Digital_TTS Studio}"; Flags: nowait postinstall skipifsilent
+Filename: "{app}\Digital_TTS_Studio.exe"; Description: "{cm:LaunchProgram,Digital_TTS Studio}"; Flags: nowait postinstall

@@ -2355,7 +2355,7 @@ def format_lrc_time(seconds: float) -> str:
     centis = int((seconds % 1) * 100)
     return f"[{minutes:02d}:{secs:02d}.{centis:02d}]"
 
-CURRENT_VERSION = "1.2.2"
+CURRENT_VERSION = "1.2.3"
 VERSION_CHECK_URL = "https://raw.githubusercontent.com/mooncry93/TTS-ATUO-UPDATE/main/UPDATE%20RELEASE/version.json"
 
 @app.get("/api/check-update")
@@ -2383,12 +2383,76 @@ async def check_update_endpoint():
                 "current_version": CURRENT_VERSION,
                 "online_version": online_version,
                 "download_url": download_url,
-                "changelog": changelog
+                "changelog": changelog,
+                "platform": sys.platform
             }
         else:
             return {"update_available": False, "message": "Failed to fetch version info from server."}
     except Exception as e:
         return {"update_available": False, "message": str(e)}
+
+def perform_background_update(download_url):
+    import time
+    import threading
+    import urllib.request
+    import signal
+    try:
+        # Give the API request a moment to return response to the browser
+        time.sleep(1.5)
+        
+        print("[UPDATE] Starting background auto-install...")
+        # Get standard windows temp folder
+        temp_dir = os.environ.get("TEMP", os.environ.get("TMP", os.path.expanduser("~")))
+        os.makedirs(temp_dir, exist_ok=True)
+        setup_path = os.path.join(temp_dir, "digital_tts_setup.exe")
+        
+        # Download setup.exe
+        req = urllib.request.Request(
+            download_url,
+            headers={'User-Agent': 'Mozilla/5.0'}
+        )
+        with urllib.request.urlopen(req, timeout=60.0) as response:
+            with open(setup_path, "wb") as f:
+                f.write(response.read())
+        
+        print(f"[UPDATE] Download completed: {setup_path}")
+        
+        # Launch setup.exe in silent mode
+        cmd = [setup_path, "/SP-", "/SILENT", "/SUPPRESSMSGBOXES", "/NORESTART"]
+        
+        kwargs = {}
+        if sys.platform == "win32":
+            # DETACHED_PROCESS (0x00000008) | CREATE_NEW_PROCESS_GROUP (0x00000010)
+            kwargs["creationflags"] = 0x00000008 | 0x00000010
+            
+        subprocess.Popen(cmd, close_fds=True, **kwargs)
+        print("[UPDATE] Launched setup.exe in silent mode. Terminating current application...")
+        
+        # Send SIGINT to own process to shut down orchestrator parent process
+        os.kill(os.getpid(), signal.SIGINT)
+        
+    except Exception as e:
+        print(f"[UPDATE] Background update failed: {e}")
+
+@app.post("/api/install-update")
+async def install_update_endpoint():
+    import threading
+    import requests
+    try:
+        res = requests.get(VERSION_CHECK_URL, timeout=5.0)
+        if res.status_code == 200:
+            data = res.json()
+            download_url = data.get("download_url", "")
+            if not download_url:
+                raise HTTPException(status_code=400, detail="No download URL found in version configuration.")
+                
+            # Run the update in a background thread so the HTTP response returns immediately
+            threading.Thread(target=perform_background_update, args=(download_url,), daemon=True).start()
+            return {"status": "success", "message": "Update download and installation started in the background. The app will restart shortly."}
+        else:
+            raise HTTPException(status_code=500, detail="Failed to fetch update configuration from server.")
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
 
 static_dir = resolve_path("static")
 os.makedirs(static_dir, exist_ok=True)
