@@ -20,7 +20,7 @@ def check_pyinstaller():
 def build_exe():
     if sys.platform != "win32":
         print("=============================================================")
-        print("⚠️  WARNING: CROSS-COMPILATION CONSTRAINT")
+        print("[WARNING] CROSS-COMPILATION CONSTRAINT")
         print("-------------------------------------------------------------")
         print("You are currently running on a non-Windows OS (macOS/Linux).")
         print("To generate a Windows '.exe', you must run this script")
@@ -130,8 +130,8 @@ def build_exe():
 
     print("\n========================= BUILD SUCCESS =========================")
     print(f"Your compiled Windows application files are located at:")
-    print(f"👉 Launcher folder: {os.path.abspath(output_launcher_folder)}")
-    print(f"👉 Secure Gateway:  {os.path.abspath(os.path.join(dist_dir, 'gateway.exe'))}")
+    print(f"-> Launcher folder: {os.path.abspath(output_launcher_folder)}")
+    print(f"-> Secure Gateway:  {os.path.abspath(os.path.join(dist_dir, 'gateway.exe'))}")
     print("-----------------------------------------------------------------")
     print("Files ready for packaging:")
     print("1. 'dist/Digital_TTS_Studio/*' (Launcher launcher + UI static assets)")
