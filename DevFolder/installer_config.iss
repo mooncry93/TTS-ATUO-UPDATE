@@ -3,7 +3,7 @@
 
 [Setup]
 AppName=Digital_TTS Studio
-AppVersion=1.2.0
+AppVersion=1.2.1
 DefaultDirName={localappdata}\Digital_TTS_Studio
 DefaultGroupName=Digital_TTS Studio
 OutputDir=client

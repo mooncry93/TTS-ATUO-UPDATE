@@ -35,6 +35,11 @@ jobs:
         run: |
           python build_windows_exe.py
 
+      - name: Run Release Packer script
+        working-directory: ./DevFolder
+        run: |
+          python make_release.py
+
       - name: Package installer with Inno Setup
         working-directory: ./DevFolder
         run: |
@@ -49,15 +54,30 @@ jobs:
               exit 1
           }
 
-      - name: Create Release and Upload Asset
+      - name: Compress macOS Client Package
+        run: |
+          Compress-Archive -Path "For Client/MAC USER/*" -DestinationPath "For Client/digital_tts_studio_mac_${{ github.ref_name }}.zip"
+
+      - name: Verify macOS zip creation
+        run: |
+          if (Test-Path "For Client/digital_tts_studio_mac_${{ github.ref_name }}.zip") {
+              echo "macOS client zip archived successfully!"
+          } else {
+              echo "Error: macOS client zip not found!"
+              exit 1
+          }
+
+      - name: Create Release and Upload Assets
         uses: softprops/action-gh-release@v1
         with:
-          files: DevFolder/client/setup.exe
+          files: |
+            DevFolder/client/setup.exe
+            For Client/digital_tts_studio_mac_${{ github.ref_name }}.zip
           tag_name: ${{ github.ref_name }}
           name: Release ${{ github.ref_name }}
           body: |
-            Digital_TTS Studio local client release ${{ github.ref_name }}.
-            Includes updated offline ASR and speed optimizations.
+            Digital_TTS Studio client release ${{ github.ref_name }}.
+            Includes both the Windows Setup Installer (.exe) and macOS client package (.zip).
           draft: false
           prerelease: false
         env:
