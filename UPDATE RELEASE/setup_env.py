@@ -93,8 +93,18 @@ def is_package_installed(pkg_name):
         __import__(module_name)
         if pkg_name == "torch":
             import torch
-            if not torch.cuda.is_available():
-                return False
+            if torch.cuda.is_available():
+                return True
+            # Check if there is physically an NVIDIA GPU present
+            try:
+                res = subprocess.run(["nvidia-smi"], stdout=subprocess.PIPE, stderr=subprocess.PIPE, timeout=2.0)
+                if res.returncode == 0:
+                    # NVIDIA GPU exists but torch lacks CUDA. Force reinstall.
+                    return False
+            except Exception:
+                pass
+            # No NVIDIA GPU present. CPU-only torch is appropriate.
+            return True
         return True
     except Exception:
         return False

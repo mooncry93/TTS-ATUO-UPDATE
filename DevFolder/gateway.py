@@ -2355,7 +2355,7 @@ def format_lrc_time(seconds: float) -> str:
     centis = int((seconds % 1) * 100)
     return f"[{minutes:02d}:{secs:02d}.{centis:02d}]"
 
-CURRENT_VERSION = "1.2.1"
+CURRENT_VERSION = "1.2.2"
 VERSION_CHECK_URL = "https://raw.githubusercontent.com/mooncry93/TTS-ATUO-UPDATE/main/UPDATE%20RELEASE/version.json"
 
 @app.get("/api/check-update")

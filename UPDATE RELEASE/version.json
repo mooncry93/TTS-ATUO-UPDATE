@@ -1,5 +1,5 @@
 {
-  "version": "1.2.1",
-  "download_url": "https://github.com/mooncry93/TTS-ATUO-UPDATE/releases/download/v1.2.1/setup.exe",
-  "changelog": "v1.2.1: បន្ថែមមុខងារចងក្រងកញ្ចប់ដំឡើងសម្រាប់ macOS (.zip) ស្វ័យប្រវត្តិតាមរយៈ Cloud Github Release និងជួសជុលបញ្ហា Unicode encoding។"
+  "version": "1.2.2",
+  "download_url": "https://github.com/mooncry93/TTS-ATUO-UPDATE/releases/download/v1.2.2/setup.exe",
+  "changelog": "v1.2.2: ជួសជុលបញ្ហានៃការចងរង្វិលជុំ (installation loop) នៃ PyTorch / CUDA នៅលើម៉ាស៊ីនដែលគ្មាន GPU និងបន្ថែមមុខងារចងក្រងកញ្ចប់ដំឡើងសម្រាប់ macOS (.zip) ស្វ័យប្រវត្តិតាមរយៈ Cloud GitHub Releases។"
 }
