@@ -3,7 +3,7 @@
 
 [Setup]
 AppName=Digital_TTS Studio
-AppVersion=1.2.3
+AppVersion=1.2.4
 DefaultDirName={localappdata}\Digital_TTS_Studio
 DefaultGroupName=Digital_TTS Studio
 OutputDir=client
@@ -13,6 +13,11 @@ Compression=lzma
 SolidCompression=yes
 PrivilegesRequired=lowest
 SetupIconFile=app_icon.ico
+
+[InstallDelete]
+Type: filesandordirs; Name: "{app}\_internal"
+Type: files; Name: "{app}\*.dll"
+Type: files; Name: "{app}\*.pyd"
 
 [Tasks]
 Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"

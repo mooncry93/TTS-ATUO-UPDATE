@@ -1,5 +1,5 @@
 {
-  "version": "1.2.3",
-  "download_url": "https://github.com/mooncry93/TTS-ATUO-UPDATE/releases/download/v1.2.3/setup.exe",
-  "changelog": "v1.2.3: បន្ថែមមុខងារដំឡើងកម្មវិធីស្វ័យប្រវត្តិតែមួយឃ្លីប (1-Click Auto Install & Restart) សម្រាប់អ្នកប្រើប្រាស់ Windows និងទាញយកកញ្ចប់ដំឡើង Mac ដោយស្វ័យប្រវត្តិ។"
+  "version": "1.2.4",
+  "download_url": "https://github.com/mooncry93/TTS-ATUO-UPDATE/releases/download/v1.2.4/setup.exe",
+  "changelog": "v1.2.4: ជួសជុលបញ្ហាឡូហ្គោជាន់គ្នា (python312.dll conflicts) នៅពេលតម្លើងកំណែទម្រង់ថ្មី និងផ្លាស់ប្តូរការចងក្រងមកជា Python 3.12 ស្វ័យប្រវត្តិតាមរយៈ Cloud GitHub Actions។"
 }
